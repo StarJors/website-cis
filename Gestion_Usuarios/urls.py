@@ -20,7 +20,7 @@ urlpatterns = [
     path('usuarios/', listar_usuarios, name='listar_usuarios'),
     path('usuarios/crear/', crear_usuario, name='crear_usuario'),
     path('usuarios/<int:pk>/actualizar/', actualizar_usuario, name='actualizar_usuario'),
-    path('usuarios/eliminar/<int:pk>/', views.eliminar_usuario, name='eliminar_usuario'),
+    path('usuarios/<int:pk>/eliminar/', eliminar_usuario, name='eliminar_usuario'),
     path('usuarios/inactivos/', views.listar_usuarios_inactivos, name='listar_usuarios_inactivos'),
     path('usuarios/reactivar/<int:pk>/', views.reactivar_usuario, name='reactivar_usuario'),
     #grupos

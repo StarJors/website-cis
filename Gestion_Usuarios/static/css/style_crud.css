@@ -88,19 +88,39 @@ h2 {
     color: #721c24;
 }
 
-/* Ajustes de estilo para las tablas y formularios */
-.table-responsive {
-    overflow-x: auto;
+/* Estilos para las tarjetas */
+.user-card {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    margin-bottom: 20px;
 }
 
-.table thead th {
-    text-align: center;
-    vertical-align: middle;
+.user-card .card-body {
+    padding: 1.25rem;
 }
 
-.form-check-input {
-    margin-left: 0;
-    margin-right: 5px;
+.search-container {
+    margin-bottom: 20px;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
+}
+
+.card-grid {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card-grid .col-lg-3, .card-grid .col-md-6 {
+    display: flex;
+    justify-content: center;
 }
 
 /* Ajustes para pantallas pequeñas */
@@ -115,5 +135,11 @@ h2 {
 
     .form-control, .form-check-input {
         margin-bottom: 10px;
+    }
+}
+@media (max-width: 576px) {
+    .col-lg-4, .col-md-6 {
+        flex: 0 0 100%; /* One card per row */
+        max-width: 100%;
     }
 }

@@ -17,6 +17,7 @@
     };
 
     window.confirmDelete = function(userId) {
+        event.preventDefault();
         swal({
             title: "¿Estás seguro?",
             text: "Una vez eliminado, no podrás recuperar este usuario.",
@@ -32,6 +33,7 @@
     };
 
     window.confirmSubmit = function(formId, message) {
+        event.preventDefault();
         swal({
             title: "¿Está seguro?",
             text: message,

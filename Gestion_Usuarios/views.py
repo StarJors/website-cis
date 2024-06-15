@@ -6,6 +6,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import GroupForm
 from django.contrib.auth.models import Group
+from django.core.paginator import Paginator
+from django.db.models import Q
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 
 User = get_user_model()
 
@@ -60,8 +64,26 @@ def dashboard(request):
 
 # Listar Usuarios
 def listar_usuarios(request):
-    usuarios = User.objects.filter(is_active=True)
-    return render(request, 'Gestion_Usuarios/listar_usuarios.html', {'usuarios': usuarios})
+    query = request.GET.get('q')
+    if query:
+        usuarios = User.objects.filter(
+            Q(nombre__icontains=query) |
+            Q(apellido__icontains=query) |
+            Q(email__icontains=query)
+        )
+    else:
+        usuarios = User.objects.filter(is_active=True)
+
+    paginator = Paginator(usuarios, 4)  # Muestra 10 usuarios por página.
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        html = render_to_string('Gestion_Usuarios/usuarios_list.html', {'page_obj': page_obj})
+        return JsonResponse({'html': html})
+
+    return render(request, 'Gestion_Usuarios/listar_usuarios.html', {'page_obj': page_obj, 'query': query})
+
 
 # Crear Usuario
 def crear_usuario(request):
@@ -91,20 +113,20 @@ def actualizar_usuario(request, pk):
     return render(request, 'Gestion_Usuarios/actualizar_usuario.html', {'form': form, 'usuario': usuario})
 
 # Eliminar Usuario
-@login_required
+#@login_required
 def eliminar_usuario(request, pk):
     usuario = get_object_or_404(User, pk=pk)
     usuario.is_active = False
     usuario.save()
-    messages.success(request, 'El usuario ha sido desactivado.')
+    messages.success(request, 'El usuario ha sido eliminado.')
     return redirect('listar_usuarios')
 
-@login_required
+#@login_required
 def listar_usuarios_inactivos(request):
     usuarios_inactivos = User.objects.filter(is_active=False)
     return render(request, 'Gestion_Usuarios/listar_usuarios_inactivos.html', {'usuarios_inactivos': usuarios_inactivos})
 
-@login_required
+#@login_required
 def reactivar_usuario(request, pk):
     usuario = get_object_or_404(User, pk=pk)
     usuario.is_active = True
@@ -113,13 +135,13 @@ def reactivar_usuario(request, pk):
     return redirect('listar_usuarios_inactivos')  
     
 # Listar Grupos
-@login_required
+#@login_required
 def listar_grupos(request):
     grupos = Group.objects.all()
     return render(request, 'Gestion_Usuarios/listar_grupos.html', {'grupos': grupos})
 
 # Crear Grupos
-@login_required
+#@login_required
 def crear_grupo(request):
     if request.method == 'POST':
         form = GroupForm(request.POST)
@@ -132,7 +154,7 @@ def crear_grupo(request):
     return render(request, 'Gestion_Usuarios/crear_grupo.html', {'form': form})
 
 #Actualizar Grupos
-@login_required
+#@login_required
 def actualizar_grupo(request, pk):
     grupo = get_object_or_404(Group, pk=pk)
     if request.method == 'POST':
@@ -146,7 +168,7 @@ def actualizar_grupo(request, pk):
     return render(request, 'Gestion_Usuarios/actualizar_grupo.html', {'form': form, 'grupo': grupo})
 
 # Eliminar Grupos
-@login_required
+#@login_required
 def eliminar_grupo(request, pk):
     grupo = get_object_or_404(Group, pk=pk)
     if request.method == 'POST':

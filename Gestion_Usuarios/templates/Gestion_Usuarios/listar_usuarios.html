@@ -1,38 +1,44 @@
 {% extends "dashboard.html" %}
 {% load static %}
 {% block content %}
-
 <head>
-    <link type='text/css' href= "{% static "css\style_crud.css" %}" rel='stylesheet'/>
-
+    <link type='text/css' href= "{% static 'css/style_crud.css' %}" rel='stylesheet'/>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
+<h2>Listar Usuarios</h2>
 
-<div class="container mt-4">
-    <h2>Listar Usuarios</h2>
-    <a href="{% url 'crear_usuario' %}" class="btn btn-primary mb-3">Crear Usuario</a>
-    <a href="{% url 'listar_usuarios_inactivos' %}" class="btn btn-success mb-3">Usuarios inactivos</a>
-
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Email</th>
-                <th>Nombre Completo</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for usuario in usuarios %}
-                <tr>
-                    <td>{{ usuario.email }}</td>
-                    <td>{{ usuario.nombre }} {{ usuario.apellido }}</td>
-                    <td>
-                        <a href="{% url 'actualizar_usuario' usuario.id %}" class="btn btn-warning btn-sm">Actualizar</a>
-                        <a href="{% url 'eliminar_usuario' usuario.id %}" class="btn btn-danger btn-sm" >Eliminar</a>                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="search-container">
+    <input type="text" id="search" placeholder="Buscar por nombre, apellido o email..." onkeyup="filterCards()">
 </div>
 
+<div class="btn-group mb-3">
+    <a href="{% url 'crear_usuario' %}" class="btn btn-success">Crear Usuario</a>
+    <a href="{% url 'listar_usuarios_inactivos' %}" class="btn btn-primary">Usuarios Eliminados</a>
+</div>
 
+<div id="users-container" class="row card-grid">
+    {% include 'Gestion_Usuarios/usuarios_list.html' %}
+</div>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1{% if query %}&q={{ query }}{% endif %}">&laquo; Primero</a>
+            <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">Anterior</a>
+        {% endif %}
+
+        <span class="current">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Siguiente</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if query %}&q={{ query }}{% endif %}">Último &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+<script src="{% static 'js/search.js' %}"></script>
+<script src="{% static 'js/delete.js' %}"></script>
+<script src="{% static 'js/confirmations.js' %}"></script>
 {% endblock %}
