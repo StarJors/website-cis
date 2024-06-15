@@ -1,0 +1,38 @@
+{% extends "dashboard.html" %}
+{% load static %}
+{% block content %}
+
+<head>
+    <link type='text/css' href= "{% static "css\style_crud.css" %}" rel='stylesheet'/>
+
+</head>
+
+<div class="container mt-4">
+    <h2>Listar Usuarios</h2>
+    <a href="{% url 'crear_usuario' %}" class="btn btn-primary mb-3">Crear Usuario</a>
+    <a href="{% url 'listar_usuarios_inactivos' %}" class="btn btn-success mb-3">Usuarios inactivos</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Nombre Completo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in usuarios %}
+                <tr>
+                    <td>{{ usuario.email }}</td>
+                    <td>{{ usuario.nombre }} {{ usuario.apellido }}</td>
+                    <td>
+                        <a href="{% url 'actualizar_usuario' usuario.id %}" class="btn btn-warning btn-sm">Actualizar</a>
+                        <a href="{% url 'eliminar_usuario' usuario.id %}" class="btn btn-danger btn-sm" >Eliminar</a>                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}
