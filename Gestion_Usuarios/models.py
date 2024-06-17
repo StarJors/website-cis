@@ -28,7 +28,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
-    imagen = models.ImageField(upload_to='user_images/', null=True, blank=True)
+    imagen = models.ImageField(upload_to='path/to/upload', null=True, blank=True)
     nombre = models.CharField(max_length=50)
     apellido = models.CharField(max_length=50)
     ru = models.CharField(max_length=20, null=True, blank=True, unique=True )  # Registro Universitario

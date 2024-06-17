@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'Gestion_Usuarios',
     'Seg_Mod_Graduacion',
     'Repositorio_Titulados',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 AUTH_USER_MODEL = 'Gestion_Usuarios.User'
@@ -121,6 +123,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 # URL to use when referring to static files located in STATIC_ROOT.
+#CRISPY
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
