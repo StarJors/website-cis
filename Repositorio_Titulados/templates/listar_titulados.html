@@ -1,0 +1,40 @@
+{% extends "dashboard.html" %}
+{% load static %}
+{% block  content%}
+
+<head>
+<link rel="stylesheet" type="text/css" href="{% static "css/style_Titulado.css" %}">
+</head>
+<body>
+<h2>Repositorio De Titulados</h2>
+<h6>Carrera De Ingenieria De Sistemas</h6>
+
+<form class="d-flex" role="search" method="GET" action="{% url 'listar_titulados' %}">
+    <input class="form-control me-2" type="text" name="q" placeholder="Buscar por nombre..." value="{{ query|default_if_none:"" }}">
+    <button class="btn btn-outline-success" type="submit">Buscar</button>
+</form>
+</div>
+<div class="card-container">
+    {% for usuarios in usuarios %}
+    <div class="card">
+        <div class="head">
+            <div class="circle"></div>
+            <div class="img">
+                <img src="{% static "image/CIS.png" %}" alt="yo">
+            </div>
+        </div>
+        <div class="description">
+            <h5>Nombre:</h5>
+            <h3>{{ usuario.nombre }}</h3>
+            <h5>Apellido:</h5>
+            <h3>{{ usuario.apellido }}</h3>
+        </div>
+        <div class="contact">
+            <a href="#">Mas info</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</body>
+
+{% endblock %}

@@ -24,6 +24,9 @@ urlpatterns = [
     # APLICACION USUARIO
     path('', include('Gestion_Usuarios.urls')),
 
+    # APLICACION REPOSITORIO DE TITULADOS
+    path('', include('Repositorio_Titulados.urls')),
+
     # APLICACION SEG_MOD_GRADUACION
     path('', include('Seg_Mod_Graduacion.urls')),
 
