@@ -114,13 +114,3 @@ class ProyectoFinal(models.Model):
 
     def __str__(self):
         return self.titulo
-
-class Complementario(models.Model):
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    anio_egreso = models.IntegerField()
-    periodo_egreso = models.CharField(max_length=50)
-    numero_acta = models.CharField(max_length=50)
-    nota = models.FloatField()
-
-    def __str__(self):
-        return f"{self.usuario} - {self.anio_egreso}"

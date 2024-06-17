@@ -99,6 +99,7 @@ h2 {
 
 .user-card .card-body {
     padding: 1.25rem;
+    text-align: center;
 }
 
 .search-container {
@@ -121,6 +122,50 @@ h2 {
 .card-grid .col-lg-3, .card-grid .col-md-6 {
     display: flex;
     justify-content: center;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center; /* Centra el contenedor de paginación */
+    margin-top: 20px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center; /* Centra los elementos dentro del contenedor de paginación */
+    align-items: center;
+}
+
+.step-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Espacio entre botones */
+}
+
+.step-links button {
+    background-color: #052b2d; /* Color de fondo */
+    color: white; /* Color del texto */
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    transition: background-color 0.3s; /* Transición suave para el color de fondo */
+    cursor: pointer;
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+.step-links button:hover {
+    background-color: #09595c; /* Color de fondo al pasar el cursor */
+}
+
+.current {
+    display: flex;
+    align-items: center;
+    padding: 10px;
 }
 
 /* Ajustes para pantallas pequeñas */
