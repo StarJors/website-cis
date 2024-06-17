@@ -10,6 +10,8 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
+from django.contrib.contenttypes.models import ContentType
 
 User = get_user_model()
 
@@ -74,7 +76,7 @@ def listar_usuarios(request):
     else:
         usuarios = User.objects.filter(is_active=True)
 
-    paginator = Paginator(usuarios, 4)  # Muestra 10 usuarios por página.
+    paginator = Paginator(usuarios, 12)  
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -86,12 +88,23 @@ def listar_usuarios(request):
 
 
 # Crear Usuario
+@login_required
 def crear_usuario(request):
     errors = None
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            usuario = form.save()
+            
+            # Registrar la acción de creación
+            LogEntry.objects.log_action(
+                user_id=request.user.pk,
+                content_type_id=ContentType.objects.get_for_model(usuario).pk,
+                object_id=usuario.pk,
+                object_repr=str(usuario),
+                action_flag=ADDITION
+            )
+            
             return redirect('listar_usuarios')
         else:
             errors = form.errors  # Captura los errores
@@ -101,52 +114,82 @@ def crear_usuario(request):
     return render(request, 'Gestion_Usuarios/crear_usuario.html', {'form': form, 'errors': errors})
 
 # Actualizar Usuario
+@login_required
 def actualizar_usuario(request, pk):
     usuario = get_object_or_404(User, pk=pk)
     if request.method == 'POST':
-        form = CustomUserChangeForm(request.POST, request.FILES, instance=usuario)
+        form = CustomUserChangeForm(request.POST,request.FILES, instance=usuario)
         if form.is_valid():
-            form.save()
+            usuario = form.save()
+            
+            # Registrar la acción de actualización
+            LogEntry.objects.log_action(
+                user_id=request.user.pk,
+                content_type_id=ContentType.objects.get_for_model(usuario).pk,
+                object_id=usuario.pk,
+                object_repr=str(usuario),
+                action_flag=CHANGE
+            )
+            
+            messages.success(request, 'El usuario ha sido actualizado.')
             return redirect('listar_usuarios')
     else:
         form = CustomUserChangeForm(instance=usuario)
+    
     return render(request, 'Gestion_Usuarios/actualizar_usuario.html', {'form': form, 'usuario': usuario})
 
 # Eliminar Usuario
-#@login_required
+@login_required
 def eliminar_usuario(request, pk):
     usuario = get_object_or_404(User, pk=pk)
     usuario.is_active = False
     usuario.save()
+    
+    # Registrar la acción de eliminación
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=ContentType.objects.get_for_model(usuario).pk,
+        object_id=usuario.pk,
+        object_repr=str(usuario),
+        action_flag=DELETION
+    )
+    
     messages.success(request, 'El usuario ha sido eliminado.')
     return redirect('listar_usuarios')
 
-#@login_required
+@login_required
 def listar_usuarios_inactivos(request):
     usuarios_inactivos = User.objects.filter(is_active=False)
     return render(request, 'Gestion_Usuarios/listar_usuarios_inactivos.html', {'usuarios_inactivos': usuarios_inactivos})
 
-#@login_required
+@login_required
 def reactivar_usuario(request, pk):
     usuario = get_object_or_404(User, pk=pk)
     usuario.is_active = True
     usuario.save()
+        # Registrar la acción de reactivación
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=ContentType.objects.get_for_model(usuario).pk,
+        object_id=usuario.pk,
+        object_repr=str(usuario),
+        action_flag=ADDITION
+    )
     messages.success(request, 'El usuario ha sido reactivado.')
     return redirect('listar_usuarios_inactivos')  
     
 # Listar Grupos
-#@login_required
+@login_required
 def listar_grupos(request):
     grupos = Group.objects.all()
     return render(request, 'Gestion_Usuarios/listar_grupos.html', {'grupos': grupos})
 
 # Crear Grupos
-#@login_required
+@login_required
 def crear_grupo(request):
     if request.method == 'POST':
         form = GroupForm(request.POST)
         if form.is_valid():
-            form.save()
             messages.success(request, 'El grupo ha sido creado con éxito.')
             return redirect('listar_grupos')
     else:
@@ -154,7 +197,7 @@ def crear_grupo(request):
     return render(request, 'Gestion_Usuarios/crear_grupo.html', {'form': form})
 
 #Actualizar Grupos
-#@login_required
+@login_required
 def actualizar_grupo(request, pk):
     grupo = get_object_or_404(Group, pk=pk)
     if request.method == 'POST':
@@ -168,7 +211,7 @@ def actualizar_grupo(request, pk):
     return render(request, 'Gestion_Usuarios/actualizar_grupo.html', {'form': form, 'grupo': grupo})
 
 # Eliminar Grupos
-#@login_required
+@login_required
 def eliminar_grupo(request, pk):
     grupo = get_object_or_404(Group, pk=pk)
     if request.method == 'POST':

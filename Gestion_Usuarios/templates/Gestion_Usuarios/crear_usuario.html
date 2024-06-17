@@ -3,11 +3,12 @@
 {% block content %}
 <head>
     <link rel="stylesheet" type="text/css" href="{% static 'css/style_crud.css' %}">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 </head>
 <div class="container mt-4">
     <h2>Crear Usuario</h2>
-    <form method="post">
+    <form id="create-user-form" method="post">
         {% csrf_token %}
         {{ form.non_field_errors }}
         <div class="form-group">
@@ -65,10 +66,10 @@
             {{ form.groups }}
             {{ form.groups.errors }}
         </div>
-        <button type="submit" class="btn btn-success">Guardar</button>
+        <button type="button" class="btn btn-success" onclick="confirmCreate()">Guardar</button>
         <a href="{% url 'listar_usuarios' %}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 
-
+<script src="{% static 'js/confirmations.js' %}"></script>
 {% endblock %}
