@@ -145,4 +145,49 @@ def agregar_comentario(request, proyecto_id):
         formf = InvComentarioForm()
     return render(request, 'proyectos/agregar_comentario.html', {'formf': formf, 'proyecto': proyecto})
 
+#@method_decorator(user_passes_test(lambda u: permiso_M_G(u, 'admMG')), name='dispatch')
+class ProyectosParaAprobar(View):
+    def get(self, request):
+        proyectos = InveCientifica.objects.filter(investado='Pendiente')
+        proyectos_con_formulario = {proyecto: InvComentarioForm() for proyecto in proyectos}
+        
+        context = {
+            'proyectos': proyectos_con_formulario,
+        }
+        return render(request, 'invcientifica/ProyectosParaAprobar.html', context)
+    
+    def post(self, request):
+        proyecto_id = request.POST.get('proyecto_id')
+        comentario_texto = request.POST.get('comentario_texto')
+        if proyecto_id and comentario_texto:
+            proyecto = get_object_or_404(InveCientifica, pk=proyecto_id)
+            ComentarioInvCientifica.objects.create(invcomentario=comentario_texto, user=request.user, invproyecto_relacionado=proyecto)
+            messages.success(request, 'Comentario agregado exitosamente.')
+        else:
+            messages.error(request, 'Hubo un error al agregar el comentario.')
+        
+        if 'aprobar' in request.POST:
+            return AprobarProyecto().post(request, proyecto_id)
+        elif 'rechazar' in request.POST:
+            return RechazarProyecto().post(request, proyecto_id)
+        else:
+            messages.error(request, 'Hubo un error al procesar la solicitud.')
+            return redirect('ProyectosParaAprobar')
+
+class AprobarProyecto(View):
+    def post(self, request, proyecto_id):
+        proyecto = get_object_or_404(InveCientifica, pk=proyecto_id)
+        proyecto.investado = 'Aprobado'
+        proyecto.save()
+        messages.success(request, '¡Proyecto aprobado exitosamente!')
+        return redirect('ProyectosParaAprobar')
+
+class RechazarProyecto(View):
+    def post(self, request, proyecto_id):
+        proyecto = get_object_or_404(InveCientifica, pk=proyecto_id)
+        proyecto.investado = 'Rechazado'
+        proyecto.save()
+        messages.error(request, '¡Proyecto rechazado!')
+        return redirect('ProyectosParaAprobar')
 #aprovacion de alcanze de proyecto 
+

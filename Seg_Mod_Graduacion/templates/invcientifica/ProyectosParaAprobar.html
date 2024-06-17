@@ -1,4 +1,4 @@
-{% extends 'principal.html' %}
+{% extends 'dashboard.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
 
@@ -10,18 +10,18 @@
         <div class="card mb-4 mx-auto contrevision" style="max-width: 840px;">
             <div class="row g-0 ">
                 <div class="col-md-4">
-                    <img src="{{ proyecto.persona.imagen.url }}" class="img-fluid rounded-left and rounded-right to rounded-start and rounded-end" style="height: 300px;" alt="...">
+                    {% comment %} <img src="{{ proyecto.user.imagen.url }}" class="img-fluid rounded-left and rounded-right to rounded-start and rounded-end" style="height: 300px;" alt="..."> {% endcomment %}
                 </div>
                 <div class="col-md-8">
                     <div class="card-body"><br>
-                        <h5 class="card-title">TITULO: {{ proyecto.titulo }}</h5>
-                        <h5 class="card-name">Postulante: {{ proyecto.persona.user.first_name }} {{ proyecto.persona.user.last_name }}</h5>
-                        <h6 class="card-title">MODALIDAD OPTADA: {{ proyecto.categoria.titulo }}</h6>
-                        <h2 class="contdoc col-lg-7" data-label="Documento Proyecto"><a href="{{ proyecto.documentacion.url }}" class="list-group-item list-group-item-action">
+                        <h5 class="card-title">TITULO: {{ proyecto.invtitulo }}</h5>
+                        {% comment %} <h5 class="card-name">Postulante: {{ proyecto.persona.user.first_name }} {{ proyecto.persona.user.last_name }}</h5> {% endcomment %}
+                        <h6 class="card-title">MODALIDAD OPTADA: {{ proyecto.invcategoria.nombrecategoria }}</h6>
+                        <h2 class="contdoc col-lg-7" data-label="Documento Proyecto"><a href="{{ proyecto.invdocumentacion.url }}" class="list-group-item list-group-item-action">
                             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-files" viewBox="0 0 16 16">
                                 <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2m0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1M3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/>
                               </svg> Ver Documento</a></h2>
-                        <p class="card-text">Descripcion:<br>{{ proyecto.descripcion }}</p>
+                        <p class="card-text">Descripcion:<br>{{ proyecto.invdescripcion }}</p>
                     </div>
                 </div>
             </div>
@@ -29,9 +29,10 @@
              <!-- Formulario para aprobar/rechazar con espacio para agregar comentario -->
             <p class="px-3 card-text">Comentar Proyecto</p>
             <div class="container">
-                <form method="POST"  action="{% url 'ProyectosParaAprobar' %}">
+                
+                <form method="POST" action="{% url 'ProyectosParaAprobar' %}">
                     {% csrf_token %}
-                    <input  type="hidden" name="proyecto_id" value="{{ proyecto.id }}">
+                    <input type="hidden" name="proyecto_id" value="{{ proyecto.id }}">
                     <textarea class="comentari-field contdoc" name="comentario_texto" required></textarea>
                     <br><br>
                     <button type="submit" name="aprobar" class="btn btn-success contsuccess">Aprobar</button> ||
