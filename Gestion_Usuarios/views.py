@@ -190,7 +190,18 @@ def crear_grupo(request):
     if request.method == 'POST':
         form = GroupForm(request.POST)
         if form.is_valid():
-            messages.success(request, 'El grupo ha sido creado con éxito.')
+            grupo = form.save()
+            
+            # Registrar la acción de creación
+            LogEntry.objects.log_action(
+                user_id=request.user.pk,
+                content_type_id=ContentType.objects.get_for_model(grupo).pk,
+                object_id=grupo.pk,
+                object_repr=str(grupo),
+                action_flag=ADDITION
+            )
+            
+            messages.success(request, f'Grupo {grupo.name} creado exitosamente.')
             return redirect('listar_grupos')
     else:
         form = GroupForm()

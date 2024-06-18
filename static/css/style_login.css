@@ -7,7 +7,6 @@
 }
 
 body {
-
     justify-content: center;
     align-items: center;
     background-image: url(../img/lluvia.jpg);
@@ -85,12 +84,55 @@ main {
     color: #003366;
 }
 .contenedor__login form h2:hover {
-    transform:translateY(-2px);
+    transform: translateY(-2px);
     color: #0b6164;
 }
+
+.contenedor__login form .form-group {
+    margin-top: 20px;
+}
+
+.contenedor__login form .input-group {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.contenedor__login form .input-group .form-control {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    flex: 1;
+}
+
+.contenedor__login form .input-group .input-group-append .btn {
+    margin: 0%;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background: #F2F2F2;
+    border: none;
+}
+.input-group .btn .bi-eye {
+    color: #003366; /* Cambia este valor al color que desees */
+}
+
+.input-group .btn .bi-eye-slash {
+    color: #003366; /* Cambia este valor al mismo color del icono bi-eye */
+}
+
+.input-group .btn:active .bi-eye,
+.input-group .btn:active .bi-eye-slash,
+.input-group .btn:focus .bi-eye,
+.input-group .btn:focus .bi-eye-slash {
+    color: #003366; /* Cambia este valor al color que desees */
+}
+.contenedor__login form .input-group .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
 .contenedor__login form input {
     width: 100%;
-    margin-top: 20px;
     padding: 10px;
     border: none;
     border-radius: 15px;
@@ -110,17 +152,20 @@ main {
     color: #fff;
     outline: none;
 }
-.card{
+
+.card {
     margin-top: 20px;
     color: #003366;
     font-family: cursive;
     border: none;
 }
-.card a{
+
+.card a {
     font-family: cursive;
 }
-.card a:hover{
-    transform:translateY(-2px);
+
+.card a:hover {
+    transform: translateY(-2px);
     color: #0b6164;
 }
 
@@ -133,7 +178,7 @@ main {
 /* Estilos para pantallas de tamaño máximo 600px */
 @media only screen and (max-width: 400px) {
     .formulario__login {
-        max-width:100%;
+        max-width: 100%;
         margin: 0 auto;
     }
 }

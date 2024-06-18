@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth import get_user_model
-from Seg_Mod_Graduacion.models import ProyectoFinal, TutorExterno
+from Seg_Mod_Graduacion.models import ProyectoFinal
 
 User = get_user_model()
 
