@@ -121,7 +121,7 @@ def agregar_investigacion(request):
 #@user_passes_test(lambda u: permiso_Estudiantes(u, 'Estudiantes')) 
 def vista_investigacion(request):
     # Obtener todos los proyectos asociados al usuario en sesión
-    proyectos_usuario = InveCientifica.objects.filter(user=request.user).order_by('-invfecha_creacion')
+    proyectos_usuario = InveCientifica.objects.filter(user=request.user).order_by('-invfecha_creacion').prefetch_related('comentarioinvcientifica_set')
 
     # Paginación
     paginator = Paginator(proyectos_usuario, 1)  # Mostrar un proyecto por página
@@ -136,10 +136,10 @@ def agregar_comentario(request, proyecto_id):
     if request.method == 'POST':
         formf = InvComentarioForm(request.POST)
         if formf.is_valid():
-            comentario = formf.save(commit=False)
-            comentario.proyecto_relacionado = proyecto
-            comentario.user = request.user  # Asigna el usuario actual
-            comentario.save()
+            invcomentario = formf.save(commit=False)
+            invcomentario.proyecto_relacionado = proyecto
+            invcomentario.user = request.user  # Asigna el usuario actual
+            invcomentario.save()
             return redirect('dashboard', proyecto_id=proyecto_id)
     else:
         formf = InvComentarioForm()

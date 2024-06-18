@@ -71,7 +71,7 @@ class ComentarioInvCientifica(models.Model):
 
     def __str__(self):
         len_title = 15
-        if len(self.comentari) > len_title:
+        if len(self.invcomentario) > len_title:
             return self.invcomentario[:len_title] + '...'
         return self.invcomentario
     
