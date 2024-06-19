@@ -76,7 +76,40 @@ class ComentarioInvCientifica(models.Model):
         return self.invcomentario
     
     
-##############################                  ##############
+class InvSettings(models.Model):
+    habilitarInv = models.BooleanField(default=True, verbose_name='Habilitar Formulario')
+
+    def __str__(self):
+        return "Configuración Global"
+    
+##############################     Agregacion 2da Parte Perfil de poryecto   ##############
+
+class PerfildeProyecto(models.Model):
+    pertitulo = models.CharField(max_length=150, verbose_name='Titulo')
+    slug = models.SlugField(unique=True)
+    perfecha_creacion = models.DateTimeField(auto_now_add=True)
+    perdescripcion = models.TextField(verbose_name='Descripcion', blank=True)
+    perdocumentacion = models.FileField(upload_to='documento/proyecto', verbose_name='Documentacion', null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Usuario relacionado')
+    percategoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, verbose_name='Categoria')
+    perestado = models.CharField(max_length=10, choices=ESTADO_CHOICES, default='Pendiente')
+    
+    def __str__(self):
+        return self.pertitulo
+        
+#agregar comentario formulario proyecto 
+class Comentarioperfil(models.Model):
+    percomentario = models.TextField(max_length=1000, help_text='',verbose_name='Ingrese Comentario Retroalimentativo')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    perFecha_post = models.DateTimeField(auto_now_add=True)
+    perproyecto_relacionado = models.ForeignKey(PerfildeProyecto, on_delete=models.CASCADE, related_name='comentarios')
+    
+    class Meta:
+        ordering = ['-perFecha_post']
+    def __str__(self):
+        return self.percomentario[:15] + '...' if len(self.percomentario) > 15 else self.percomentario
+##############################     Agregacion 3da Parte  poryecto  final ##############
+
 class InvCientifica(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=250)

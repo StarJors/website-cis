@@ -1,8 +1,7 @@
 {% extends 'dashboard.html' %}
-{% load static %}
 {% block content %}
-
-<h1 class="text-center titulosgeneral">FORMULARIO PRESENTACION DE ALCANCE DE PERFIL DE PROYECTO</h1>
+{% load static %}
+<h1 class="text-center titulosgeneral">FORMULARIO PRESENTACION PERFIL DE PROYECTO</h1>
 <br />
 {% if proyectos %}
 <div class="container mt-3">
@@ -12,7 +11,7 @@
       <!-- Foto en un lado -->
       {% if proyecto.user.imagen %}
         <div class="col-md-3 col-lg-3 centered-img">
-            <img src="{{ proyecto.user.imagen.url }}" class="card-img imgperfil p-2" alt="{{ proyecto.user.username }}" />
+            <img src="{{ proyecto.user.imagen.url }}" class="card-img imgperfil p-2" alt="" />
         </div>
       {% else %}
         <div class="col-md-3 col-lg-3 centered-img">
@@ -24,11 +23,11 @@
       <div class="col-md-7 col-lg-8 pb-5">
         <div class="card-body">
           <!-- Texto con formato pre -->
-          <pre id="aaa">MODALIDAD OPTADA: {{ proyecto.invcategoria.nombrecategoria }}              {{ proyecto.invfecha_creacion }}</pre>
+          <pre id="aaa">MODALIDAD OPTADA: {{ proyecto.percategoria.nombrecategoria }}              {{ proyecto.perfecha_creacion }}</pre>
           <!-- Título -->
-          <h5 class="card-title">Titulo: {{ proyecto.invtitulo }}</h5>
+          <h5 class="card-title">Titulo: {{ proyecto.pertitulo }}</h5>
           <!-- Descripción -->
-          <p class="card-text">Descripción:<br>{{ proyecto.invdescripcion }}</p>
+          <p class="card-text">Descripción:<br>{{ proyecto.perdescripcion }}</p>
           <div class="container text-center">
             <div class="row">
               <div class="col contdoc">
@@ -36,11 +35,11 @@
                   <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-file-earmark-richtext-fill" viewBox="0 0 16 16">
                     <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M7 6.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m-.861 1.542 1.33.886 1.854-1.855a.25.25 0 0 1 .289-.047l1.888.974V9.5a.5.5 0 0 1-.5.5H5a.5.5 0 0 1-.5-.5V9s1.54-1.274 1.639-1.208M5 11h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1m0 2h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1"/>
                   </svg>
-                  <a href="{{ proyecto.invdocumentacion.url }}" class="list-group-item list-group-item-action">Documento</a>
+                  <a href="{{ proyecto.perdocumentacion.url }}" class="list-group-item list-group-item-action">Documento</a>
                 </div>
               </div>
               <div class="col">
-                <h5 class="card-state">Estado Revisión: {{proyecto.investado}}</h5>
+                <h5 class="card-state">Estado Revisión: {{ proyecto.perestado }}</h5>
               </div>
             </div> 
           </div>
@@ -49,11 +48,11 @@
           <br />
           <!-- Botón para ver documento -->
           <h5 class="card-title text-center">Comentarios Retroalimentativos</h5>
-          {% for invcomentario in proyecto.comentarioinvcientifica_set.all %}
+          {% for comentario in proyecto.comentarios.all %}
           <h6 class="card-state">
-            {{ invcomentario.invFecha_post }}<br> Revisado por: {{ invcomentario.user.nombre }} {{ invcomentario.user.apellido }}
+            {{ comentario.perFecha_post }} <br> Revisado por: {{ comentario.user.nombre }} {{ comentario.user.apellido }}
           </h6>
-          <p class="card-text">Comentario:<br>{{ invcomentario.invcomentario }}</p>
+          <p class="card-text">Comentarios:<br> {{ comentario.percomentario }}</p>
           {% empty %}
           <p class="card-text">No hay comentarios para este proyecto.</p>
           {% endfor %}

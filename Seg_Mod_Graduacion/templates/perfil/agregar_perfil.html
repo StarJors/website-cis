@@ -1,0 +1,35 @@
+{% extends 'dashboard.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Crear Form{% endblock %}
+{% load static %}
+{% block content %}
+
+<div class="container px-lg-5 font pb-5">
+  <div class="no-gutters container px-lg-5 px-2">
+    <h1 id="letr" class="text-center pb-5 pt-4">AGREGAR NUEVO FORMULARIO PERFIL DE PROYECTO</h1>
+    <article class="pb-5" >
+      {% comment %} <form id="pot" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        
+      </form> {% endcomment %}
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        {% if not form_disabled %}
+        <br>
+        <input name="" id="boton1" class="btn btn-primary" type="submit" value="Enviar Informacion" {% if form_disabled %}disabled{% endif %}>
+        <a name="" id="boton1" class="btn btn-danger" href="{% url 'dashboard' %}" role="button">Cancelar</a><br>
+        {% else %}
+            <p>Formulario deshabilitado. Debes tener una investigación aprobada para agregar un perfil.</p>
+        {% endif %}
+    </form>
+      <br>
+    </article>
+  </div> 
+</div>
+{% endblock %}
+
+
+
+

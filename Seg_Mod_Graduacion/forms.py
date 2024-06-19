@@ -1,6 +1,6 @@
 from django import forms
 from Gestion_Usuarios import admin
-from .models import InveCientifica, ComentarioInvCientifica
+from .models import InveCientifica, ComentarioInvCientifica, InvSettings, PerfildeProyecto, Comentarioperfil
 
 
 
@@ -23,7 +23,7 @@ from .models import InveCientifica, ComentarioInvCientifica
 
 #admin.site.register(ProyectoFinal, ProyectoFinalAdmin)
 
-
+# area de investigacion cientifica 
 class InveCientificaForm(forms.ModelForm):
     class Meta:
         model = InveCientifica
@@ -39,4 +39,31 @@ class InvComentarioForm(forms.ModelForm):
         widgets = {
             'invcomentario': forms.Textarea(attrs={'class': 'comentari-field'}),
         }       
+
+
         
+class GlobalSettingsForm(forms.ModelForm):
+    class Meta:
+        model = InvSettings
+        fields = ['habilitarInv']
+
+    def __init__(self, *args, **kwargs):
+        super(GlobalSettingsForm, self).__init__(*args, **kwargs)
+        
+#area de perfil de proyecto 
+class perfilForm(forms.ModelForm):
+    class Meta:
+        model = PerfildeProyecto
+        fields = ['pertitulo', 'perdescripcion', 'perdocumentacion', 'percategoria']
+        widgets = {
+            'perdescripcion': forms.Textarea(attrs={'class': 'descripcion-field'}),
+        }
+        
+class PerComentarioForm(forms.ModelForm):
+    class Meta:
+        model = Comentarioperfil
+        fields = ['percomentario'] 
+        widgets = {
+            'percomentario': forms.Textarea(attrs={'class': 'comentari-field'}),
+        }       
+

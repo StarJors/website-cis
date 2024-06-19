@@ -12,18 +12,18 @@
             <div class="row g-0 ">
                 <div class="col-md-4 m-2">
                     {% if proyecto.user.imagen %}
-                        <img src="{{ proyecto.user.imagen.url }}" class="p-2  no-gutters img-fluid rounded-left and rounded-right to rounded-start and rounded-end" style="height: 300px;" alt="...">
+                        <img src="{{ proyecto.user.imagen.url }}" class="p-2 no-gutters img-fluid rounded-left and rounded-right to rounded-start and rounded-end" style="height: 300px;" alt="...">
                     {% else %}
-                        <img src="{% static 'img/SINFOTO.webp' %}" class="p-2  no-gutters img-fluid rounded-left and rounded-right to rounded-start and rounded-end" style="height: 300px;" alt="...">
+                        <img src="{% static 'img/SINFOTO.webp' %}" class="p-2 no-gutters img-fluid rounded-left and rounded-right to rounded-start and rounded-end" style="height: 300px;" alt="...">
                     {% endif %}
                 </div>
                 <div class="col-md-7">
                     <div class="card-body"><br>
-                        <h5 class="card-title">TITULO: {{ proyecto.invtitulo }}</h5>
-                        <h6 class="card-title">MODALIDAD OPTADA: {{ proyecto.invcategoria.nombrecategoria }}</h6>
+                        <h5 class="card-title">TITULO: {{ proyecto.pertitulo }}</h5>
+                        <h6 class="card-title">MODALIDAD OPTADA: {{ proyecto.percategoria.nombrecategoria }}</h6>
                         <h5 class="card-name">POSTULANTE: {{ proyecto.user.nombre }} {{ proyecto.user.apellido }}</h5>
-                        <p class="card-text">Descripcion:<br>{{ proyecto.invdescripcion }}</p>
-                        <h2 class="contdoc col-lg-7 " data-label="Documento Proyecto"><a href="{{ proyecto.invdocumentacion.url }}" class="list-group-item list-group-item-action">
+                        <p class="card-text">Descripcion:<br>{{ proyecto.perdescripcion }}</p>
+                        <h2 class="contdoc col-lg-7 " data-label="Documento Proyecto"><a href="{{ proyecto.perdocumentacion.url }}" class="list-group-item list-group-item-action">
                             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-files" viewBox="0 0 16 16">
                                 <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2m0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1M3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/>
                               </svg> Ver Documento</a></h2>
@@ -35,7 +35,7 @@
             <p class="px-3 card-text">Comentar Proyecto</p>
             <div class="container">
                 
-                <form method="POST" action="{% url 'ProyectosParaAprobar' %}">
+                <form method="POST" action="{% url 'PerfilesParaAprobar' %}">
                     {% csrf_token %}
                     <input type="hidden" name="proyecto_id" value="{{ proyecto.id }}">
                     <textarea class="comentari-field contdoc" name="comentario_texto" required></textarea>
