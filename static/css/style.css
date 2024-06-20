@@ -3,21 +3,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
-.font{
-    font-family: "Anton";
-    
-}
-.text-tareas{
-    
-    color: #c75818;
-    font-size: 18px;
-    background: #c2dfdf4f;
-}
+
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+
+/* .lora-<uniquifier> {
+    font-family: "Lora", serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+} */
+
+/* scrollbar */
 
 :root {
-    --primary: #ffddaf;
+    --primary: #f1b05b;
     --secondary: #191C24;
-    --light: #7f97a3;
+    --light: #a1bcca;
     --dark: #003C43;
 }
 #hh{
@@ -32,6 +33,54 @@
     z-index: 1000;
 }
 
+::-webkit-scrollbar {
+    width: 3px; 
+}
+
+/* Fondo del scrollbar */
+::-webkit-scrollbar-track {
+    background: var(--dark); /* Fondo transparente */
+    height: 300px;
+}
+
+/* Thumb del scrollbar (la parte que se mueve) */
+::-webkit-scrollbar-thumb {
+    background: var(--primary) /* Color negro semi-transparente */
+}
+
+
+.font{
+    font-family: "Anton";
+    
+}
+.fontf{
+    font-family: "Lora";
+    color: #1c3b3f;
+    
+}
+.fontsub{
+    font-family: "Lora";
+    color: #5f6c6e;
+    font-size: 12px;
+    
+}
+.subtext{
+    font-size: 14px;
+    font-family: "Lora";
+    text-align: center;
+    
+}
+
+.fontfamili{
+    font-family: "Lora";
+}
+.text-tareas{
+    
+    color: #c75818;
+    font-size: 18px;
+    background: #c2dfdf4f;
+}
+
 
 
 #fote{
@@ -39,8 +88,11 @@
 }
 
 #hhh{
+    font-family:"Anton" ;
+    padding-left: 10px;
     background-color: transparent;
-    color: #ffe5c4;
+    color: #bb8947;
+    font-size: 34px;
 }
 #contt{
     background: #191C24;
@@ -399,10 +451,13 @@
     width: 40px;
     height: 40px;
     display: inline-flex;
+    text-decoration: none;
     align-items: center;
     justify-content: center;
     background: var(--dark);
     border-radius: 40px;
+    color: var(--primary);
+    
 }
 
 .content .navbar .dropdown-item {
@@ -411,7 +466,8 @@
 
 .content .navbar .dropdown-item:hover,
 .content .navbar .dropdown-item.active {
-    background: var(--dark);
+    background: var(--secondary);
+    color: var(--primary);
 }
 
 .content .navbar .dropdown-toggle::after {

@@ -43,3 +43,6 @@ function confirmCreate() {
     });
 }
 
+//confiaciones global campos 
+
+

@@ -46,14 +46,14 @@ class Categoria(models.Model):
     
     
 class InveCientifica(models.Model):
-    invtitulo = models.CharField(max_length=150, verbose_name='Titulo')
+    invtitulo = models.CharField(max_length=150, verbose_name='Agregar Titulo')
     slug = models.SlugField(unique=True)
     invfecha_creacion = models.DateTimeField(auto_now_add=True)
-    invdescripcion = models.TextField(verbose_name='Descripcion', blank=True)
-    invdocumentacion = models.FileField(upload_to='documento/proyecto', verbose_name='Documentacion', null=True)
+    invdescripcion = models.TextField(verbose_name='Agregar una Descripcion', blank=True)
+    invdocumentacion = models.FileField(upload_to='documento/proyecto', verbose_name='Agregar Documentacion', null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Usuario relacionado')
-    invcategoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, verbose_name='Categoria')
-    invdestacado = models.BooleanField(default=True) 
+    invcategoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, verbose_name='Seleccione Una Modalidad')
+    invdestacado = models.BooleanField(default=True, verbose_name='Destacar Formulario') 
     investado = models.CharField(max_length=10, choices=ESTADO_CHOICES, default='Pendiente')
     
     def __str__(self):
@@ -85,13 +85,13 @@ class InvSettings(models.Model):
 ##############################     Agregacion 2da Parte Perfil de poryecto   ##############
 
 class PerfildeProyecto(models.Model):
-    pertitulo = models.CharField(max_length=150, verbose_name='Titulo')
+    pertitulo = models.CharField(max_length=150, verbose_name='Agregar Titulo')
     slug = models.SlugField(unique=True)
     perfecha_creacion = models.DateTimeField(auto_now_add=True)
-    perdescripcion = models.TextField(verbose_name='Descripcion', blank=True)
-    perdocumentacion = models.FileField(upload_to='documento/proyecto', verbose_name='Documentacion', null=True)
+    perdescripcion = models.TextField(verbose_name='Agregar una Descripcion', blank=True)
+    perdocumentacion = models.FileField(upload_to='documento/proyecto', verbose_name='Agregar Documentacion', null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Usuario relacionado')
-    percategoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, verbose_name='Categoria')
+    percategoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, verbose_name='Seleccione Una Modalidad')
     perestado = models.CharField(max_length=10, choices=ESTADO_CHOICES, default='Pendiente')
     
     def __str__(self):
