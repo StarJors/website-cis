@@ -31,6 +31,10 @@ urlpatterns = [
 
     # APLICACION SEG_MOD_GRADUACION
     path('', include('Seg_Mod_Graduacion.urls')),
+    
+    # APLICACIION INTERACCION SOCIAL
+    path('', include('Interccion_Social.urls')),
+    
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

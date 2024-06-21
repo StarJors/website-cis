@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'Gestion_Usuarios',
     'Seg_Mod_Graduacion',
     'Repositorio_Titulados',
+    'Interccion_Social',
     'crispy_forms',
     'crispy_bootstrap5',
 ]
