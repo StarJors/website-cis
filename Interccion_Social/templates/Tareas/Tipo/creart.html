@@ -1,15 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{% if form.instance.pk %}Editar Tipo de Proyecto{% else %}Crear Tipo de Proyecto{% endif %}</title>
-</head>
-<body>
-    <h1>{% if form.instance.pk %}Editar Tipo de Proyecto{% else %}Crear Tipo de Proyecto{% endif %}</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Guardar</button>
-    </form>
-    <a href="{% url 'listart' %}">Cancelar</a>
-</body>
-</html>
+{% extends 'dashboard.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Crear Form{% endblock %}
+{% load static %}
+{% block content %}
+<div class="container px-lg-5 font pb-5">
+  <div class="no-gutters container px-lg-5 px-2">
+    <h1 id="letr" class="text-center pb-5 pt-4">AGREGAR NUEVO TIPO DE INVESTIGACIÓN Y INTERACCION SOCIAL</h1>
+    <article class="pb-5" >
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input name="" id="" class="btn btn-primary" type="submit" value="Enviar Informacion"> || 
+            <a name="" id="" class="btn btn-danger " href="{% url 'listart' %}" role="button">Cancelar</a>
+        </form>
+      <br>
+    </article>
+  </div> 
+</div>
+
+{% endblock %}

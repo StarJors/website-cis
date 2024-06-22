@@ -1,26 +1,15 @@
 from Gestion_Usuarios.models import models
 from django.contrib.auth.models import Group
-from django.shortcuts import render, redirect , HttpResponseRedirect
-from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required,permission_required
 from django.shortcuts import render, redirect,get_object_or_404
-from django.urls import reverse
-from django.views import View
-from .forms import T_ProyectosForm, IntSocSettingsForm, FaseProyectoForm
+from .forms import T_ProyectosForm, IntSocSettingsForm, FaseProyectoForm,TipoProyectoForm, FaseProyectoForm, GestionForm, SemestreForm,MateriaForm
 from django.conf import settings
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.utils.text import slugify
 from django.core.paginator import Paginator
-from django.contrib import messages
-from .models import T_Proyectos, T_Gestion, T_Semestre, T_Materia, IntSocSettings
+from .models import T_Proyectos, T_Gestion, T_Semestre, T_Materia, IntSocSettings, T_Tipo_Proyecto, T_Gestion, T_Semestre, T_Materia, T_Fase_proyecto
 from django.contrib.auth.models import User
-
-from django.views.generic import View
-
-
-from django.core.mail import send_mail
-
 from datetime import date
 
 #permisos de grupo
@@ -160,9 +149,7 @@ def repoin(request):
 
 ######## TAREAS #########
 
-from .models import T_Tipo_Proyecto, T_Gestion, T_Semestre, T_Materia
-from .forms import TipoProyectoForm
-
+#Tipo croud
 def listart(request):
     tipos = T_Tipo_Proyecto.objects.all()
     return render(request, 'Tareas/Tipo/listart.html', {'tipos': tipos})
@@ -194,3 +181,136 @@ def eliminart(request, pk):
         tipo.delete()
         return redirect('listart')
     return render(request, 'Tareas/Tipo/eliminart.html', {'object': tipo})
+
+
+#Fase croud
+def listarf(request):
+    fase = T_Fase_proyecto.objects.all()
+    return render(request, 'Tareas/FaseEtapa/listarf.html', {'fase': fase})
+
+def crearf(request):
+    if request.method == "POST":
+        formf = FaseProyectoForm(request.POST)
+        if formf.is_valid():
+            formf.save()
+            return redirect('listarf')
+    else:
+        formf = FaseProyectoForm()
+    return render(request, 'Tareas/FaseEtapa/crearf.html', {'formf': formf})
+
+def editarf(request, pk):
+    fase = get_object_or_404(T_Fase_proyecto, pk=pk)
+    if request.method == "POST":
+        formf = TipoProyectoForm(request.POST, instance=fase)
+        if formf.is_valid():
+            formf.save()
+            return redirect('listarf')
+    else:
+        formf = FaseProyectoForm(instance=fase)
+    return render(request, 'Tareas/FaseEtapa/editarf.html', {'formf': formf})
+
+def eliminarf(request, pk):
+    fase = get_object_or_404(T_Fase_proyecto, pk=pk)
+    if request.method == "POST":
+        fase.delete()
+        return redirect('listarf')
+    return render(request, 'Tareas/FaseEtapa/eliminarf.html', {'object': fase})
+
+#Gestion croud
+def listarg(request):
+    gestion = T_Gestion.objects.all()
+    return render(request, 'Tareas/Gestion/listarg.html', {'gestion': gestion})
+
+def crearg(request):
+    if request.method == "POST":
+        formg = GestionForm(request.POST)
+        if formg.is_valid():
+            formg.save()
+            return redirect('listarg')
+    else:
+        formg = GestionForm()
+    return render(request, 'Tareas/Gestion/crearg.html', {'formg': formg})
+
+def editarg(request, pk):
+    gestion = get_object_or_404(T_Gestion, pk=pk)
+    if request.method == "POST":
+        formg = GestionForm(request.POST, instance=gestion)
+        if formg.is_valid():
+            formg.save()
+            return redirect('listarg')
+    else:
+        formg = GestionForm(instance=gestion)
+    return render(request, 'Tareas/Gestion/editarg.html', {'formg': formg})
+
+def eliminarg(request, pk):
+    gestion = get_object_or_404(T_Gestion, pk=pk)
+    if request.method == "POST":
+        gestion.delete()
+        return redirect('listarg')
+    return render(request, 'Tareas/Gestion/eliminarg.html', {'object': gestion})
+
+#Semestre croud
+def listars(request):
+    semestre = T_Semestre.objects.all()
+    return render(request, 'Tareas/Semestre/listars.html', {'semestre': semestre})
+
+def crears(request):
+    if request.method == "POST":
+        forms = SemestreForm(request.POST)
+        if forms.is_valid():
+            forms.save()
+            return redirect('listars')
+    else:
+        forms = SemestreForm()
+    return render(request, 'Tareas/Semestre/crears.html', {'forms': forms})
+
+def editars(request, pk):
+    semestre = get_object_or_404(T_Semestre, pk=pk)
+    if request.method == "POST":
+        forms = SemestreForm(request.POST, instance=semestre)
+        if forms.is_valid():
+            forms.save()
+            return redirect('listars')
+    else:
+        forms = SemestreForm(instance=semestre)
+    return render(request, 'Tareas/Semestre/editars.html', {'forms': forms})
+
+def eliminars(request, pk):
+    semestre = get_object_or_404(T_Semestre, pk=pk)
+    if request.method == "POST":
+        semestre.delete()
+        return redirect('listars')
+    return render(request, 'Tareas/Semestre/eliminars.html', {'object': semestre})
+
+#Materia cruod
+def listarm(request):
+    materia = T_Materia.objects.all()
+    return render(request, 'Tareas/Materia/listarm.html', {'materia': materia})
+
+def crearm(request):
+    if request.method == 'POST':
+        formm = MateriaForm(request.POST)
+        if formm.is_valid():
+            formm.save()
+            return redirect('listarm')
+    else:
+        formm = MateriaForm()
+    return render(request, 'Tareas/Materia/crearm.html', {'formm': formm})
+
+def editarm(request, pk):
+    materia = get_object_or_404(T_Materia, pk=pk)
+    if request.method == 'POST':
+        formm = MateriaForm(request.POST, instance=materia)
+        if formm.is_valid():
+            formm.save()
+            return redirect('listarm')
+    else:
+        formm = MateriaForm(instance=materia)
+    return render(request, 'Tareas/Materia/editarm.html', {'formm': formm})
+
+def eliminarm(request, pk):
+    materia = get_object_or_404(T_Materia, pk=pk)
+    if request.method == 'POST':
+        materia.delete()
+        return redirect('listarm')
+    return render(request, 'Tareas/Materia/eliminarm.html', {'materia': materia})

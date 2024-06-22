@@ -8,7 +8,7 @@ from django.conf import settings
 #tipo de proyecto de interaccion social docentes
 class T_Tipo_Proyecto(models.Model):
     Id_tipo=models.AutoField(primary_key=True)
-    S_Tipo= models.CharField(max_length=100, verbose_name='Tipo')
+    S_Tipo= models.CharField(max_length=100, verbose_name='Tipo de Inv. Soc.')
     
     def __str__(self):
         return self.S_Tipo
@@ -16,7 +16,7 @@ class T_Tipo_Proyecto(models.Model):
 #tipo fase de interaccion social docentes
 class T_Fase_proyecto(models.Model):
     Id_fase= models.AutoField(primary_key=True)
-    S_Fase=models.CharField(max_length=100,verbose_name='Fase')
+    S_Fase=models.CharField(max_length=100,verbose_name='Fase o Etapa ')
     
     def __str__(self):
         return self.S_Fase 
@@ -24,7 +24,7 @@ class T_Fase_proyecto(models.Model):
 #tipo gestion de interaccion social docentes
 class T_Gestion(models.Model):
     Id_Ges=models.AutoField(primary_key=True)
-    S_Gestion= models.CharField(max_length=100,verbose_name='Nom_Gestion')
+    S_Gestion= models.CharField(max_length=100,verbose_name='Nombre de Gestion')
     
     def __str__(self):
         return self.S_Gestion

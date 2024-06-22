@@ -5,17 +5,17 @@
 {% block content %}
 <div class="container px-lg-5 font pb-5">
   <div class="no-gutters container px-lg-5 px-2">
-    <h1 id="letr" class="text-center pb-5 pt-4">CONFIRMACION DE ELIMINACIÓN DE TIPO  </h1>
+    <h1 id="letr" class="text-center pb-5 pt-4">EDITAR MATERIA DE INVESTIGACION EH INTERACCION SOCIAL</h1>
     <article class="pb-5" >
-        <p class="fontf">¿Estás seguro de que deseas eliminar {{ tipo.S_Tipo }}?</p>
         <form method="post">
             {% csrf_token %}
-            <button class="btn btn-primary" type="submit">Eliminar</button>
-            <a class="btn btn-danger" href="{% url 'listart' %}">Cancelar</a><br>
+            {{ formm|crispy }}
+            <input name="" id="" class="btn btn-primary" type="submit" value="Enviar Informacion"> || 
+            <a name="" id="" class="btn btn-danger " href="{% url 'listarm' %}" role="button">Cancelar</a>
         </form>
+      <br>
     </article>
   </div> 
 </div>
 
 {% endblock %}
-
