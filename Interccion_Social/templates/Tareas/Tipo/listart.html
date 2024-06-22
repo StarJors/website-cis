@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tipos de Proyecto</title>
+</head>
+<body>
+    <h1>Tipos de Proyecto</h1>
+    <a href="{% url 'creart' %}">Crear Nuevo Tipo</a>
+    <ul>
+        {% for tipo in tipos %}
+            <li>{{ tipo.S_Tipo }} - <a href="{% url 'editart' tipo.pk %}">Editar</a> - <a href="{% url 'eliminart' tipo.pk %}">Eliminar</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

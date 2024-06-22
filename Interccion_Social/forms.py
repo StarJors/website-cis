@@ -1,5 +1,5 @@
 from django import forms
-from .models import T_Proyectos, IntSocSettings
+from .models import T_Proyectos, IntSocSettings, T_Tipo_Proyecto, T_Fase_proyecto, T_Gestion, T_Semestre, T_Materia
 from datetime import date
 
         
@@ -37,3 +37,29 @@ class IntSocSettingsForm(forms.ModelForm):
         super(IntSocSettingsForm, self).__init__(*args, **kwargs)
         self.fields['fecha_inicio_habilitacion'].input_formats = ['%Y-%m-%d']
         self.fields['fecha_fin_habilitacion'].input_formats = ['%Y-%m-%d']
+        
+
+class TipoProyectoForm(forms.ModelForm):
+    class Meta:
+        model = T_Tipo_Proyecto
+        fields = ['S_Tipo']
+
+class FaseProyectoForm(forms.ModelForm):
+    class Meta:
+        model = T_Fase_proyecto
+        fields = ['S_Fase']
+
+class GestionForm(forms.ModelForm):
+    class Meta:
+        model = T_Gestion
+        fields = ['S_Gestion']
+
+class SemestreForm(forms.ModelForm):
+    class Meta:
+        model = T_Semestre
+        fields = ['S_Semestre']
+
+class MateriaForm(forms.ModelForm):
+    class Meta:
+        model = T_Materia
+        fields = ['S_Materia', 'T_Semestre']

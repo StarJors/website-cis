@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required,permission_required
 from django.shortcuts import render, redirect,get_object_or_404
 from django.urls import reverse
 from django.views import View
-from .forms import T_ProyectosForm, IntSocSettingsForm
+from .forms import T_ProyectosForm, IntSocSettingsForm, FaseProyectoForm
 from django.conf import settings
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -91,7 +91,7 @@ def clasificar_proyectos(request):
     
 #asignacion de fechas para subir trabajos
 #@user_passes_test(lambda u: permiso_I_S(u, 'admISD')) 
-def global_settings_view(request):
+def inv_soc_settings(request):
     settings = IntSocSettings.objects.first()
     if not settings:
         settings =  IntSocSettings()
@@ -104,13 +104,13 @@ def global_settings_view(request):
     else:
         form = IntSocSettingsForm(instance=settings)
     
-    return render(request, 'homesocial/global_settings.html', {'form': form})
+    return render(request, 'homesocial/inv_soc_settings.html', {'form': form})
 
 #vista del proyecto I.S. para docentes
 @login_required
 #@user_passes_test(lambda u: permiso_Docentes(u, 'Docentes')) 
 def proyectosin_so(request):
-    persona = request.user.persona
+    persona = request.user
     proyectos = T_Proyectos.objects.filter(S_persona=persona).order_by('-Id_Proyect')
     
     # Paginación para los proyectos, incluyendo el último proyecto
@@ -158,5 +158,39 @@ def repoin(request):
     
     return render(request, 'homesocial/repoin.html', context)
 
-#################  repositorio de titulados vista general de acceso publico ####################
+######## TAREAS #########
 
+from .models import T_Tipo_Proyecto, T_Gestion, T_Semestre, T_Materia
+from .forms import TipoProyectoForm
+
+def listart(request):
+    tipos = T_Tipo_Proyecto.objects.all()
+    return render(request, 'Tareas/Tipo/listart.html', {'tipos': tipos})
+
+def creart(request):
+    if request.method == "POST":
+        form = TipoProyectoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('listart')
+    else:
+        form = TipoProyectoForm()
+    return render(request, 'Tareas/Tipo/creart.html', {'form': form})
+
+def editart(request, pk):
+    tipo = get_object_or_404(T_Tipo_Proyecto, pk=pk)
+    if request.method == "POST":
+        form = TipoProyectoForm(request.POST, instance=tipo)
+        if form.is_valid():
+            form.save()
+            return redirect('listart')
+    else:
+        form = TipoProyectoForm(instance=tipo)
+    return render(request, 'Tareas/Tipo/editart.html', {'form': form})
+
+def eliminart(request, pk):
+    tipo = get_object_or_404(T_Tipo_Proyecto, pk=pk)
+    if request.method == "POST":
+        tipo.delete()
+        return redirect('listart')
+    return render(request, 'Tareas/Tipo/eliminart.html', {'object': tipo})

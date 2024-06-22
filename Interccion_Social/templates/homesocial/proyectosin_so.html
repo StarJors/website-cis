@@ -1,4 +1,4 @@
-{% extends 'Principal.html' %} 
+{% extends 'dashboard.html' %} 
 {% block content %}
 <h1 class="text-center titulosgeneral">PRESENTACION FORMULARIO DE PROYECTO INTERACCIÓN SOCIAL</h1>
 <br />
@@ -16,7 +16,7 @@
       </div>
       {% endif %}
       <div class="col-md-7 col-lg-8 pb-5">
-        <h2 class="card-state text-end pt-3">{{ persona.user.username }} Mis Proyectos</h2>
+        <h2 class="card-state text-end pt-3">{{ persona.nombre }} {{ persona.apellido }} Mis Proyectos</h2>
         <div class="card-body">
           <pre id="aaa">FECHA INICIO : {{ proyecto.Fecha_Inicio }}                                TERMINO EN : {{ proyecto.Fecha_Finalizacion }}</pre>
           <h5 class="card-title">Titulo: {{ proyecto.S_Titulo }}</h5>

@@ -1,4 +1,4 @@
-{% extends 'Principal.html' %} 
+{% extends 'dashboard.html' %} 
 {% load crispy_forms_tags %} 
 {% block content %}
 <div class="container px-lg-5 ">
@@ -27,9 +27,9 @@
                 {% endif %}
                 <br />
                 <a>
-                    <input name="" id="boton1" class="btn btn-success" type="submit" value="Enviar Informacion"/>
-                </a>
-                <a name="" id="boton1" class="btn btn-primary" href="{% url 'dashboard' %}" role="button" >Cancelar</a>
+                    <input name="" id="boton1" class="btn btn-success contsuccess" type="submit" value="Enviar Informacion"/>
+                </a> || 
+                <a name="" id="boton1" class="btn btn-danger contdanger" href="{% url 'dashboard' %}" role="button" >Cancelar</a>
             </form>
             <br />
         </article>        
