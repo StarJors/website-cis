@@ -1,7 +1,7 @@
-from django.urls import path ,include
+from django.urls import path 
 from . import views
 from django.conf.urls import handler403
-#from .views import handle_permission_denied
+from .views import handle_permission_denied
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -39,4 +39,4 @@ urlpatterns = [
     path('Tareas/Materia/listarm/editarm/<int:pk>/', views.editarm, name='editarm'),
     path('Tareas/Materia/listarm/eliminarm/<int:pk>/', views.eliminarm, name='eliminarm'),
 ]
-#handler403 = handle_permission_denied
+handler403 = handle_permission_denied

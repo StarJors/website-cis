@@ -1,36 +1,21 @@
-from django.shortcuts import render
+
 from Gestion_Usuarios.models import models
 from django.contrib.auth.models import Group
-
-from django.shortcuts import render, redirect , HttpResponse
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required,permission_required
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect,get_object_or_404
-from django.urls import reverse
 from django.views import View
 from .forms import InveCientificaForm, InvComentarioForm, GlobalSettingsForm, perfilForm, PerComentarioForm
-from django.conf import settings
-from django.contrib.auth import views as auth_views
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.utils.text import slugify
 from django.core.paginator import Paginator
 from django.contrib import messages
 from Seg_Mod_Graduacion.models import InveCientifica, ComentarioInvCientifica, InvSettings, PerfildeProyecto, Comentarioperfil
-from django.contrib.auth.models import User
-
 from django.views.generic import View
-
-
-from django.core.mail import send_mail
-
-from datetime import date
-
 #permisos de grupo
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import user_passes_test
 from django.utils.decorators import method_decorator   
 from django.core.exceptions import PermissionDenied  
-# Create your views here.
+
 
 ##############  permisos decoradores  para funciones y clases   ################  
 
@@ -45,19 +30,7 @@ def permiso_M_G(user, ADMMGS):
         return True
     else:
         raise PermissionDenied
-
-#docentes interaccion social permigroup
-def permiso_I_S(user, ADMIIISP):
-    try:
-        grupo = Group.objects.get(name=ADMIIISP)
-    except Group.DoesNotExist:
-        raise PermissionDenied(f"El grupo '{ADMIIISP}' no existe.")
     
-    if grupo in user.groups.all():
-        return True
-    else:
-        raise PermissionDenied
-
 #permiso para docentes  
 def permiso_Docentes(user, Docentes):
     try:
@@ -86,45 +59,22 @@ def permiso_Estudiantes(user, Estudiantes):
 def handle_permission_denied(request, exception):
     return render(request, '403.html', status=403)
 
-###############  general vistas   ####################################
-
-def prueba(request):
-    grupos = Group.objects.all()
-    return render(request, "prueba.html", {'grupos': grupos})
-
 ################  vistas modalidad de graduacion  ##########################
 
 #vista agregar formulario alcanze de proyecto 
-
 @login_required
-#@user_passes_test(lambda u: permiso_Estudiantes(u, 'Estudiantes')) 
+@user_passes_test(lambda u: permiso_Estudiantes(u, 'Estudiantes')) 
 def vista_investigacion(request):
     # Obtener todos los proyectos asociados al usuario en sesión
     proyectos_usuario = InveCientifica.objects.filter(user=request.user).order_by('-invfecha_creacion').prefetch_related('comentarioinvcientifica_set')
 
-    # Paginación
-    paginator = Paginator(proyectos_usuario, 1)  # Mostrar un proyecto por página
+    paginator = Paginator(proyectos_usuario, 1)  
     page_number = request.GET.get('page')
     proyectos_paginados = paginator.get_page(page_number)
 
     return render(request, 'invcientifica/vista_investigacion.html', {'proyectos': proyectos_paginados})
 
-
-#def agregar_comentario(request, proyecto_id):
-#    proyecto = InveCientifica.objects.get(id=proyecto_id)
-#    if request.method == 'POST':
-#        formf = InvComentarioForm(request.POST)
-#        if formf.is_valid():
-#            invcomentario = formf.save(commit=False)
-#           invcomentario.proyecto_relacionado = proyecto
-#           invcomentario.user = request.user  # Asigna el usuario actual
-#            invcomentario.save()
-#            return redirect('dashboard', proyecto_id=proyecto_id)
-#    else:
-#        formf = InvComentarioForm()
-#    return render(request, 'proyectos/agregar_comentario.html', {'formf': formf, 'proyecto': proyecto})
-
-#@method_decorator(user_passes_test(lambda u: permiso_M_G(u, 'admMG')), name='dispatch')
+@method_decorator(user_passes_test(lambda u: permiso_M_G(u, 'ADMMGS')), name='dispatch')
 class ProyectosParaAprobar(View):
     def get(self, request):
         proyectos = InveCientifica.objects.filter(investado='Pendiente')
@@ -170,8 +120,7 @@ class RechazarProyecto(View):
         return redirect('ProyectosParaAprobar')
     
 #aprovacion desabilitar proyecto 
-#@user_passes_test(lambda u: permiso_I_S(u, 'admISD')) 
-
+@user_passes_test(lambda u: permiso_M_G(u, 'ADMMGS')) 
 def global_settings_view(request):
     settings = InvSettings.objects.first()
     if not settings:
@@ -186,10 +135,9 @@ def global_settings_view(request):
         form = GlobalSettingsForm(instance=settings)
     
     return render(request, 'invcientifica/global_settings.html', {'form': form, 'settings': settings})
-
-
+#agregar investigacion
 @login_required
-#@user_passes_test(lambda u: permiso_Estudiantes(u, 'Estudiantes')) 
+@user_passes_test(lambda u: permiso_Estudiantes(u, 'Estudiantes')) 
 def agregar_investigacion(request):
     settings = InvSettings.objects.first()
     
@@ -231,12 +179,10 @@ def agregar_investigacion(request):
         'form_disabled': form_disabled,
     })
     
-    
-    
-# perfil de proyecto 
+########  PERFIL DE PROYECTO M. G 2DA PARTE   ######### 
 
 @login_required
-#@user_passes_test(lambda u: permiso_Estudiantes(u, 'Estudiantes')) 
+@user_passes_test(lambda u: permiso_Estudiantes(u, 'Estudiantes')) 
 def vista_perfil(request):
     proyectos_usuario = PerfildeProyecto.objects.filter(user=request.user).order_by('-perfecha_creacion').prefetch_related('comentarios')
     
@@ -246,7 +192,7 @@ def vista_perfil(request):
 
     return render(request, 'perfil/vista_perfil.html', {'proyectos': proyectos_paginados})
 
-#@method_decorator(user_passes_test(lambda u: permiso_M_G(u, 'admMG')), name='dispatch')
+@method_decorator(user_passes_test(lambda u: permiso_M_G(u, 'ADMMGS')), name='dispatch')
 class PerfilesParaAprobar(View):
     def get(self, request):
         proyectos = PerfildeProyecto.objects.filter(perestado='Pendiente')
@@ -292,6 +238,7 @@ class RechazarPerfil(View):
         return redirect('PerfilesParaAprobar')
     
 #agregar nuevo perfil
+@user_passes_test(lambda u: permiso_Estudiantes(u, 'Estudiantes')) 
 def agregar_perfil(request):
     # Verificar si el usuario tiene al menos un InveCientifica con estado 'Aprobado'
     tiene_investigacion_aprobada = InveCientifica.objects.filter(user=request.user, investado='Aprobado').exists()

@@ -81,7 +81,10 @@
     background: #c2dfdf4f;
 }
 
-
+.img-close{
+    width: 150px ;
+    height:150px ;
+}
 
 #fote{
     background: #143c468e;
@@ -108,6 +111,9 @@
     bottom: 45px;
     z-index: 99;
     
+}
+.bg-mdal{
+    background-color: #abafaf;
 }
 
 #conttt{

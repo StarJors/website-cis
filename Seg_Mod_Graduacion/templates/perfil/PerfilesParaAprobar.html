@@ -35,13 +35,21 @@
             <p class="px-3 card-text">Comentar Proyecto</p>
             <div class="container">
                 
-                <form method="POST" action="{% url 'PerfilesParaAprobar' %}">
+                {% comment %} <form method="POST" action="{% url 'PerfilesParaAprobar' %}">
                     {% csrf_token %}
                     <input type="hidden" name="proyecto_id" value="{{ proyecto.id }}">
                     <textarea class="comentari-field contdoc" name="comentario_texto" required></textarea>
                     <br><br>
                     <button type="submit" name="aprobar" class="btn btn-success contsuccess">Aprobar</button> ||
                     <button type="submit" name="rechazar" class="btn btn-danger contdanger">Rechazar</button>
+                </form> {% endcomment %}
+                <form id="approvalForm" method="POST" action="{% url 'PerfilesParaAprobar' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="proyecto_id" value="{{ proyecto.id }}">
+                    <textarea class="comentari-field contdoc" name="comentario_texto" required></textarea>
+                    <br><br>
+                    <button type="button" name="aprobar" class="btn btn-success " data-toggle="modal" data-target="#approveModal">Aprobar</button> ||
+                    <button type="button" name="rechazar" class="btn btn-danger " data-toggle="modal" data-target="#rejectModal">Rechazar</button>
                 </form>
                 <br>
             </div>
@@ -49,5 +57,57 @@
     {% endfor %}
 </article> 
 <br>
-
+<!-- Modal de confirmación de aprobación -->
+<div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-mdal">
+        <div class="modal-header">
+          <h5 class="modal-title font" id="approveModalLabel">Confirmar Aprobación</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-center font">
+            <img src="{% static 'img/siguiente.png' %}" class="img-close" alt="" /><br>
+            ¿Estás seguro que quiere Aprobar formulario?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-success" onclick="submitForm('aprobar')">Sí, Aprobar</button>
+        </div>
+      </div>
+    </div>
+</div>
+  
+  <!-- Modal de confirmación de rechazo -->
+<div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-mdal">
+        <div class="modal-header">
+          <h5 class="modal-title font" id="rejectModalLabel">Confirmar Rechazo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-center font">
+            <img src="{% static 'img/confi.png' %}" class="img-close" alt="" /><br>
+            ¿Estás seguro que quiere Rechazar formulario?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-danger" onclick="submitForm('rechazar')">Sí, Rechazar</button>
+        </div>
+      </div>
+    </div>
+</div>
+<script>
+    function submitForm(action) {
+      const form = document.getElementById('approvalForm');
+      const hiddenInput = document.createElement('input');
+      hiddenInput.type = 'hidden';
+      hiddenInput.name = action;
+      form.appendChild(hiddenInput);
+      form.submit();
+    }
+</script>
 {% endblock %}
