@@ -18,6 +18,13 @@ from django.contrib.auth.decorators import user_passes_test
 from django.utils.decorators import method_decorator   
 from django.core.exceptions import PermissionDenied  
 
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth import get_user_model
+from django.shortcuts import render, redirect
+from datetime import date
+
+
+User = get_user_model()
 
 #docentes interaccion social permigroup
 def permiso_I_S(user, ADMIIISP):
@@ -64,7 +71,7 @@ def proyecto_detail(request):
         form = T_ProyectosForm(request.POST, request.FILES)
         if habilitado and form.is_valid():
             proyecto = form.save(commit=False)  # No guardar todavía la instancia del modelo
-            proyecto.S_persona = User.objects.get(user=request.user)  # Asignar la persona relacionada con el usuario autenticado
+            proyecto.S_persona = User.objects.get(nombre=request.user.nombre)  # Asignar la persona relacionada con el usuario autenticado
             proyecto.save()  # Ahora guardar la instancia del modelo
             return redirect('dashboard')  # Asegúrate de que 'dashboard' sea el nombre correcto de tu vista para el dashboard
     else:
