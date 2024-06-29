@@ -111,7 +111,7 @@
                                 </svg> Agregar Formulario
                             </a>
                             <div class="mx-4 fontsub text-end"><i class="fa fa-solid fa-pen-fancy"></i> Proyecto Mod. G.</div> 
-                            <a href="#" class="mx-2 subtext pe-4 dropdown-item d-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ui-radios" viewBox="0 0 16 16">
+                            <a href="{% url 'agregar_proyecto_final' %}" class="mx-2 subtext pe-4 dropdown-item d-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ui-radios" viewBox="0 0 16 16">
                                 <path d="M7 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zM0 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0m7-1.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm0-5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5M3 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6m0 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
                                 </svg> Agregacion Proyecto
                             </a>
@@ -133,7 +133,7 @@
                                 </svg> Revision Formulario
                             </a> 
                             <div class="mx-4 fontsub text-end"><i class="fa fa-solid fa-pen-fancy"></i> Proyecto Mod. G.</div> 
-                            <a href="#" class="mx-2 subtext pe-4 dropdown-item d-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ui-radios" viewBox="0 0 16 16">
+                            <a href="{% url 'RevisarProyectoFinal' %}" class="mx-2 subtext pe-4 dropdown-item d-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ui-radios" viewBox="0 0 16 16">
                                 <path d="M7 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zM0 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0m7-1.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm0-5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5M3 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6m0 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
                                 </svg> Revision de Proyecto
                             </a>
@@ -189,6 +189,16 @@
                             <a href="{% url 'listarm' %}" class="mx-2 subtext pe-4 dropdown-item d-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ui-radios" viewBox="0 0 16 16">
                                 <path d="M7 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zM0 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0m7-1.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm0-5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5M3 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6m0 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
                                 </svg> Agregar Materia
+                            </a>
+                        </div>
+                    </div>
+                    <!--Adminitracion de Repositorio de titulados-->
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-graduation-cap me-2"></i>Adm. Titulados</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="{% url 'lista_titulados' %}" class="mx-2 subtext pe-4 dropdown-item d-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ui-radios" viewBox="0 0 16 16">
+                                <path d="M7 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zM0 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0m7-1.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm0-5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5M3 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6m0 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+                                </svg> Listar Titulados
                             </a>
                         </div>
                     </div>
@@ -274,10 +284,15 @@
                 </div>
             </nav>
             <!-- Navbar End -->
-            <div id="conttt" class="container-fluid pt-4 px-4">
+            <div class="watermark-container">
+                <img src="{% static 'img\fondosocial.jpg' %}" class="watermark-image" alt="Watermark" oncontextmenu="return false;">
+                <div>
                 {% block content %}
+
                 {% endblock  %}
+                </div>
             </div>
+            <!--start footer-->
             <div id="conttt" class="container-fluid pt-4 px-4">
                 <div id="fote" class="rounded-top p-4">
                     <div class="row">
@@ -295,8 +310,9 @@
             <!-- Footer End -->
         </div>
         <!-- Content End -->
-
-
+        
+        <!--body-->
+        
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-danger btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
         <!-- Modal para enviar mensajes -->

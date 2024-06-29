@@ -2,30 +2,13 @@
 {% load static %}
 {% block  content%}
 
-<html lang="es-ES">
-<head>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style_crud.css">
-    <title>Lista de Titulados</title>
-
-</head>
-
-<body>
-    <div class="container">
-        <h1>Listar Titulados</h1>
-        <div class="actions">
-            <button id="createUserButton">Crear Titulado</button>
-            <button id="deletedUsersButton">Usuarios Eliminados</button>
-            <input type="text" id="searchBar" placeholder="Buscar por nombre, apellido o email...">
-        </div>
-        <div id="cardContainer" class="card-container">
-            <!-- Aquí se agregarán las tarjetas dinámicamente -->
-        </div>
-    </div>
-
-    <script src="scripts.js"></script>
-</body>
-</html>
+<h2>Lista de Titulados</h2>
+<ul>
+  {% for titulado in titulados %}
+    <li>
+      {{ titulado.usuario.nombre }} {{ titulado.usuario.apellido }} - {{ titulado.proyecto_final.titulo }}
+    </li>
+  {% endfor %}
+</ul>
 
 {% endblock %}
