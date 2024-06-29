@@ -20,20 +20,28 @@
     </head>
     <style>
         .imgg{
-
-            height:500px;
-            width:1200px;
+            padding-top:;
+            border-radius:30px;
+            height:400px;
+            width:700px;
+            border: 1px solid YELLOW;
         }
-        
+        body{
+            background:#020831;
+        }
+        .text{
+            color: YELLOW;
+
+        }
     </style>
     <body>
-        <div class="card text-center">
-            <div class="card mb-3 ">
-                <div class="card-body">
-                  <img src="{% static 'img/error403.gif' %}" class="imgg" alt="...">
-                  <h5 class="card-title">Permisos insuficientes</h5>
-                  <p class="card-text">contactese con el administrador para asegurar el acceso y permisos para esta opcion.</p>
-                  <p class="card-text"><small class="text-body-secondary">de momento tengo esta wevada de momento</small></p>
+        <div class="card text-center bg-transparent">
+            <div class="card mb-3 bg-transparent">
+                <div class="card-body pt-5">
+                  <img src="{% static 'img/403.jpg' %}" class="imgg" alt="...">
+                  <h1 class="card-title text">Permisos insuficientes</h1>
+                  <p class="card-text text">contactese con el administrador para asegurar el acceso y permisos para esta opcion.</p>
+                  <p class="card-text text">Visite Nuestra App Mobil</p>
                 </div>
             </div>
         </div>
