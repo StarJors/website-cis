@@ -1,25 +1,19 @@
-
-from Gestion_Usuarios.models import models
 from django.contrib.auth.models import Group
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect,get_object_or_404
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from .forms import InveCientificaForm, InvComentarioForm, GlobalSettingsForm, perfilForm, PerComentarioForm
 from django.utils.text import slugify
 from django.core.paginator import Paginator
 from django.contrib import messages
-from Seg_Mod_Graduacion.models import InveCientifica, ComentarioInvCientifica, InvSettings, PerfildeProyecto, Comentarioperfil
-from django.views.generic import View
-#permisos de grupo
-from django.contrib.auth.models import Group
-from django.contrib.auth.decorators import user_passes_test
-from django.utils.decorators import method_decorator   
-from django.core.exceptions import PermissionDenied  
+from django.utils.decorators import method_decorator
+from django.core.exceptions import PermissionDenied
 
+from .forms import InvCientificaForm, InvComentarioForm, GlobalSettingsForm, PerfilForm, PerComentarioForm,ProyectoFinalForm
+from .models import InvCientifica, ComentarioInvCientifica, InvSettings, PerfilProyecto, ComentarioPerfil,ProyectoFinal
 
 ##############  permisos decoradores  para funciones y clases   ################  
 
-#modalidad de gradiacion permigroup 
+#modalidad de graduación permigroup 
 def permiso_M_G(user, ADMMGS):
     try:
         grupo = Group.objects.get(name=ADMMGS)
@@ -59,14 +53,13 @@ def permiso_Estudiantes(user, Estudiantes):
 def handle_permission_denied(request, exception):
     return render(request, '403.html', status=403)
 
-################  vistas modalidad de graduacion  ##########################
+################  vistas modalidad de graduación  ##########################
 
-#vista agregar formulario alcanze de proyecto 
+#vista agregar formulario alcance de proyecto 
 @login_required
 @user_passes_test(lambda u: permiso_Estudiantes(u, 'Estudiantes')) 
 def vista_investigacion(request):
-    # Obtener todos los proyectos asociados al usuario en sesión
-    proyectos_usuario = InveCientifica.objects.filter(user=request.user).order_by('-invfecha_creacion').prefetch_related('comentarioinvcientifica_set')
+    proyectos_usuario = InvCientifica.objects.filter(user=request.user).order_by('-fecha_creacion').prefetch_related('comentarioinvcientifica_set')
 
     paginator = Paginator(proyectos_usuario, 1)  
     page_number = request.GET.get('page')
@@ -77,7 +70,7 @@ def vista_investigacion(request):
 @method_decorator(user_passes_test(lambda u: permiso_M_G(u, 'ADMMGS')), name='dispatch')
 class ProyectosParaAprobar(View):
     def get(self, request):
-        proyectos = InveCientifica.objects.filter(investado='Pendiente')
+        proyectos = InvCientifica.objects.filter(estado='Pendiente')
         proyectos_con_formulario = {proyecto: InvComentarioForm() for proyecto in proyectos}
         
         context = {
@@ -89,8 +82,8 @@ class ProyectosParaAprobar(View):
         proyecto_id = request.POST.get('proyecto_id')
         comentario_texto = request.POST.get('comentario_texto')
         if proyecto_id and comentario_texto:
-            proyecto = get_object_or_404(InveCientifica, pk=proyecto_id)
-            ComentarioInvCientifica.objects.create(invcomentario=comentario_texto, user=request.user, invproyecto_relacionado=proyecto)
+            proyecto = get_object_or_404(InvCientifica, pk=proyecto_id)
+            ComentarioInvCientifica.objects.create(comentario=comentario_texto, user=request.user, proyecto_relacionado=proyecto)
             messages.success(request, 'Comentario agregado exitosamente.')
         else:
             messages.error(request, 'Hubo un error al agregar el comentario.')
@@ -105,21 +98,20 @@ class ProyectosParaAprobar(View):
 
 class AprobarProyecto(View):
     def post(self, request, proyecto_id):
-        proyecto = get_object_or_404(InveCientifica, pk=proyecto_id)
-        proyecto.investado = 'Aprobado'
+        proyecto = get_object_or_404(InvCientifica, pk=proyecto_id)
+        proyecto.estado = 'Aprobado'
         proyecto.save()
         messages.success(request, '¡Proyecto aprobado exitosamente!')
         return redirect('ProyectosParaAprobar')
 
 class RechazarProyecto(View):
     def post(self, request, proyecto_id):
-        proyecto = get_object_or_404(InveCientifica, pk=proyecto_id)
-        proyecto.investado = 'Rechazado'
+        proyecto = get_object_or_404(InvCientifica, pk=proyecto_id)
+        proyecto.estado = 'Rechazado'
         proyecto.save()
         messages.error(request, '¡Proyecto rechazado!')
         return redirect('ProyectosParaAprobar')
-    
-#aprovacion desabilitar proyecto 
+
 @user_passes_test(lambda u: permiso_M_G(u, 'ADMMGS')) 
 def global_settings_view(request):
     settings = InvSettings.objects.first()
@@ -135,7 +127,7 @@ def global_settings_view(request):
         form = GlobalSettingsForm(instance=settings)
     
     return render(request, 'invcientifica/global_settings.html', {'form': form, 'settings': settings})
-#agregar investigacion
+
 @login_required
 @user_passes_test(lambda u: permiso_Estudiantes(u, 'Estudiantes')) 
 def agregar_investigacion(request):
@@ -145,31 +137,28 @@ def agregar_investigacion(request):
         messages.error(request, 'No se encontró la configuración global. Por favor, contacta al administrador.')
         return redirect('global_settings')
     
- 
-    tiene_investigacion_aprobada = InveCientifica.objects.filter(user=request.user, investado='Aprobado').exists()
+    tiene_investigacion_aprobada = InvCientifica.objects.filter(user=request.user, estado='Aprobado').exists()
     
-   
     form_disabled = not settings.habilitarInv or tiene_investigacion_aprobada
     
     if request.method == 'POST' and not form_disabled:
-        form = InveCientificaForm(request.POST, request.FILES)
+        form = InvCientificaForm(request.POST, request.FILES)
         if form.is_valid():
             proyecto = form.save(commit=False)
-           
-            slug = slugify(proyecto.invtitulo)
+            
+            slug = slugify(proyecto.titulo)
             counter = 1
-            while InveCientifica.objects.filter(slug=slug).exists():
+            while InvCientifica.objects.filter(slug=slug).exists():
                 slug = f"{slug}-{counter}"
                 counter += 1
             proyecto.slug = slug
-           
+            
             proyecto.user = request.user
             proyecto.save()
             return redirect('dashboard')
     else:
-        form = InveCientificaForm()
+        form = InvCientificaForm()
     
-   
     if form_disabled:
         for field in form.fields.values():
             field.widget.attrs['disabled'] = 'disabled'
@@ -178,13 +167,13 @@ def agregar_investigacion(request):
         'form': form,
         'form_disabled': form_disabled,
     })
-    
-########  PERFIL DE PROYECTO M. G 2DA PARTE   ######### 
+
+########  PERFIL DE PROYECTO M. G 2DA PARTE   #########
 
 @login_required
 @user_passes_test(lambda u: permiso_Estudiantes(u, 'Estudiantes')) 
 def vista_perfil(request):
-    proyectos_usuario = PerfildeProyecto.objects.filter(user=request.user).order_by('-perfecha_creacion').prefetch_related('comentarios')
+    proyectos_usuario = PerfilProyecto.objects.filter(user=request.user).order_by('-fecha_creacion').prefetch_related('comentarios')
     
     paginator = Paginator(proyectos_usuario, 1) 
     page_number = request.GET.get('page')
@@ -195,7 +184,7 @@ def vista_perfil(request):
 @method_decorator(user_passes_test(lambda u: permiso_M_G(u, 'ADMMGS')), name='dispatch')
 class PerfilesParaAprobar(View):
     def get(self, request):
-        proyectos = PerfildeProyecto.objects.filter(perestado='Pendiente')
+        proyectos = PerfilProyecto.objects.filter(estado='Pendiente')
         proyectos_con_formulario = {proyecto: PerComentarioForm() for proyecto in proyectos}
         
         context = {
@@ -207,8 +196,8 @@ class PerfilesParaAprobar(View):
         proyecto_id = request.POST.get('proyecto_id')
         comentario_texto = request.POST.get('comentario_texto')
         if proyecto_id and comentario_texto:
-            proyecto = get_object_or_404(PerfildeProyecto, pk=proyecto_id)
-            Comentarioperfil.objects.create(percomentario=comentario_texto, user=request.user, perproyecto_relacionado=proyecto)
+            proyecto = get_object_or_404(PerfilProyecto, pk=proyecto_id)
+            ComentarioPerfil.objects.create(comentario=comentario_texto, user=request.user, proyecto_relacionado=proyecto)
             messages.success(request, 'Comentario agregado exitosamente.')
         else:
             messages.error(request, 'Hubo un error al agregar el comentario.')
@@ -223,46 +212,42 @@ class PerfilesParaAprobar(View):
     
 class AprobarPerfil(View):
     def post(self, request, proyecto_id):
-        proyecto = get_object_or_404(PerfildeProyecto, pk=proyecto_id)
-        proyecto.perestado = 'Aprobado'
+        proyecto = get_object_or_404(PerfilProyecto, pk=proyecto_id)
+        proyecto.estado = 'Aprobado'
         proyecto.save()
         messages.success(request, '¡Perfil aprobado exitosamente!')
         return redirect('PerfilesParaAprobar')
 
 class RechazarPerfil(View):
     def post(self, request, proyecto_id):
-        proyecto = get_object_or_404(PerfildeProyecto, pk=proyecto_id)
-        proyecto.perestado = 'Rechazado'
+        proyecto = get_object_or_404(PerfilProyecto, pk=proyecto_id)
+        proyecto.estado = 'Rechazado'
         proyecto.save()
         messages.error(request, '¡Perfil rechazado!')
         return redirect('PerfilesParaAprobar')
-    
-#agregar nuevo perfil
+
 @user_passes_test(lambda u: permiso_Estudiantes(u, 'Estudiantes')) 
 def agregar_perfil(request):
-    # Verificar si el usuario tiene al menos un InveCientifica con estado 'Aprobado'
-    tiene_investigacion_aprobada = InveCientifica.objects.filter(user=request.user, investado='Aprobado').exists()
-    
-    # Deshabilitar el formulario si no tiene investigación aprobada
+    tiene_investigacion_aprobada = InvCientifica.objects.filter(user=request.user, estado='Aprobado').exists()
     form_disabled = not tiene_investigacion_aprobada
 
     if request.method == 'POST' and not form_disabled:
-        form = perfilForm(request.POST, request.FILES)
+        form = PerfilForm(request.POST, request.FILES)
         if form.is_valid():
             proyecto = form.save(commit=False)
-        
-            slug = slugify(proyecto.pertitulo)
+            
+            slug = slugify(proyecto.titulo)
             counter = 1
-            while PerfildeProyecto.objects.filter(slug=slug).exists():
+            while PerfilProyecto.objects.filter(slug=slug).exists():
                 slug = f"{slug}-{counter}"
                 counter += 1
             proyecto.slug = slug
-        
-            proyecto.persona = request.user.persona
+            
+            proyecto.user = request.user
             proyecto.save()
             return redirect('dashboard')
     else:
-        form = perfilForm()
+        form = PerfilForm()
 
     if form_disabled:
         for field in form.fields.values():
@@ -272,3 +257,47 @@ def agregar_perfil(request):
         'form': form,
         'form_disabled': form_disabled,
     })
+
+#### VISTA DE PROYECTO FINAL #####
+
+### VISTA PARA EL ESTUDIANTE ###
+@login_required
+@user_passes_test(lambda u: u.groups.filter(name='Estudiantes').exists())
+def agregar_proyecto_final(request):
+    if request.method == 'POST':
+        form = ProyectoFinalForm(request.POST, request.FILES)
+        if form.is_valid():
+            proyecto = form.save(commit=False)
+            proyecto.user = request.user
+            proyecto.save()
+            messages.success(request, 'Proyecto final agregado exitosamente.')
+            return redirect('dashboard')
+    else:
+        form = ProyectoFinalForm()
+    
+    return render(request, 'proyectofinal/agregar_proyecto_final.html', {'form': form})
+
+### VISTA PARA EL ADMINISTRADOR ###
+@method_decorator(user_passes_test(lambda u: u.groups.filter(name='Administrador').exists()), name='dispatch')
+class RevisarProyectoFinal(View):
+    def get(self, request):
+        proyectos = ProyectoFinal.objects.filter(estado='Pendiente')
+        return render(request, 'proyectofinal/revisar_proyecto_final.html', {'proyectos': proyectos})
+
+    def post(self, request):
+        proyecto_id = request.POST.get('proyecto_id')
+        accion = request.POST.get('accion')
+        proyecto = get_object_or_404(ProyectoFinal, id=proyecto_id)
+        
+        if accion == 'aprobar':
+            proyecto.estado = 'Aprobado'
+            proyecto.save()
+            proyecto.user.estado = True
+            proyecto.user.save()
+            messages.success(request, 'Proyecto final aprobado exitosamente.')
+        elif accion == 'rechazar':
+            proyecto.estado = 'Rechazado'
+            proyecto.save()
+            messages.error(request, 'Proyecto final rechazado.')
+
+        return redirect('revisar_proyecto_final')

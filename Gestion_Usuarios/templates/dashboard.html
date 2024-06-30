@@ -55,6 +55,7 @@
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>
+
         <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar  navbar-dark">
@@ -66,6 +67,19 @@
                 </a>
                 <div class="navbar-nav w-100 fontfamili">
                     <a href="{% url 'dashboard' %}" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                    
+                        <!--Informacion-->
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-info me-2"></i>Informacion</a>
+                            <div class="dropdown-menu bg-transparent border-0">
+                                <a href="{% url 'admin:index' %}" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ui-radios" viewBox="0 0 16 16">
+                                    <path d="M7 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zM0 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0m7-1.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm0-5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5M3 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6m0 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+                                  </svg> Datos Estudiantes
+                                </a>
+                            </div>
+                        </div>
+
+                        <!--gestion de usuarios-->
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Gta. de Usuarios</a>
                         <div class="dropdown-menu bg-transparent border-0">
@@ -81,8 +95,10 @@
                             </a> 
                         </div>
                     </div>
+
+                    <!--Modalidad de graduation-->
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-graduation-cap me-2"></i>Titulado</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-graduation-cap me-2"></i>Mod.Graduacion</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <div class="mx-4  text-end fontsub"><i class="fa fa-solid fa-pen-fancy"></i> Inv. Cientifica</div> 
                             <a href="{% url 'agregar_investigacion' %}" class="mx-2 subtext pe-4 dropdown-item d-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ui-radios me-1" viewBox="0 0 16 16">
@@ -95,14 +111,20 @@
                                 </svg> Agregar Formulario
                             </a>
                             <div class="mx-4 fontsub text-end"><i class="fa fa-solid fa-pen-fancy"></i> Proyecto Mod. G.</div> 
+<<<<<<< HEAD
                             <a href="#" class="mx-2 subtext pe-4 dropdown-item d-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ui-radios me-1" viewBox="0 0 16 16">
+=======
+                            <a href="{% url 'agregar_proyecto_final' %}" class="mx-2 subtext pe-4 dropdown-item d-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ui-radios" viewBox="0 0 16 16">
+>>>>>>> 8cf490f048541fb7a47cf7a0ba08f46083f445c0
                                 <path d="M7 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zM0 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0m7-1.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm0-5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5M3 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6m0 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
                                 </svg> Agregacion Proyecto
                             </a>
                         </div>
                     </div>
+
+                    <!--Adminitracion de Modalidad De Graduacion-->
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-solid fa-layer-group me-2"></i>Adm. Mod. G.</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-solid fa-layer-group me-2"></i>Adm.Mod.Grad.</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <div class="mx-4  text-end fontsub"><i class="fa fa-solid fa-pen-fancy"></i> Inv. Cientifica</div> 
                             <a href="{% url 'ProyectosParaAprobar' %}" class="mx-2 subtext pe-4 dropdown-item d-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ui-radios me-1" viewBox="0 0 16 16">
@@ -115,12 +137,34 @@
                                 </svg> Revision Formulario
                             </a> 
                             <div class="mx-4 fontsub text-end"><i class="fa fa-solid fa-pen-fancy"></i> Proyecto Mod. G.</div> 
+<<<<<<< HEAD
                             <a href="#" class="mx-2 subtext pe-4 dropdown-item d-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ui-radios me-1" viewBox="0 0 16 16">
+=======
+                            <a href="{% url 'RevisarProyectoFinal' %}" class="mx-2 subtext pe-4 dropdown-item d-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ui-radios" viewBox="0 0 16 16">
+>>>>>>> 8cf490f048541fb7a47cf7a0ba08f46083f445c0
                                 <path d="M7 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zM0 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0m7-1.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm0-5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5M3 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6m0 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
                                 </svg> Revision de Proyecto
                             </a>
                         </div>
                     </div>
+
+                    <!--Trabajos de Investigacion Social-->
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-university me-2"></i>Investigación S.</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            
+                            <a href="{% url 'proyecto_detail' %}" class="mx-2 subtext pe-4 dropdown-item d-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ui-radios" viewBox="0 0 16 16">
+                                <path d="M7 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zM0 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0m7-1.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm0-5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5M3 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6m0 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+                                </svg> Agregar Proyecto
+                            </a>
+                            <a href="{% url 'proyectosin_so' %}" class="mx-2 subtext pe-4 dropdown-item d-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ui-radios" viewBox="0 0 16 16">
+                                <path d="M7 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zM0 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0m7-1.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm0-5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5M3 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6m0 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+                                </svg> Vista Proyecto
+                            </a>
+                        </div>
+                    </div>
+
+                    <!--Administracion de Trabajos de investigacion-->
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-solid fa-layer-group me-2"></i>Adm. Inv. Soc.</a>
                         <div class="dropdown-menu bg-transparent border-0">
@@ -156,9 +200,11 @@
                             </a>
                         </div>
                     </div>
+                    <!--Adminitracion de Repositorio de titulados-->
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-university me-2"></i>Investigación S.</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-graduation-cap me-2"></i>Adm. Titulados</a>
                         <div class="dropdown-menu bg-transparent border-0">
+<<<<<<< HEAD
                             
                             <a href="{% url 'proyecto_detail' %}" class="mx-2 subtext pe-4 dropdown-item d-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ui-radios me-1" viewBox="0 0 16 16">
                                 <path d="M7 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zM0 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0m7-1.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm0-5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5M3 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6m0 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
@@ -200,6 +246,11 @@
                                     <path d="M7 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zM0 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0m7-1.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm0-5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5M3 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6m0 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
                                 </svg>
                                 Proyecto de Graduación
+=======
+                            <a href="{% url 'lista_titulados' %}" class="mx-2 subtext pe-4 dropdown-item d-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ui-radios" viewBox="0 0 16 16">
+                                <path d="M7 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zM0 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0m7-1.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm0-5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5M3 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6m0 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+                                </svg> Listar Titulados
+>>>>>>> 8cf490f048541fb7a47cf7a0ba08f46083f445c0
                             </a>
                         </div>
                     </div>
@@ -285,10 +336,15 @@
                 </div>
             </nav>
             <!-- Navbar End -->
-            <div id="conttt" class="container-fluid pt-4 px-4">
+            <div class="watermark-container">
+                <img src="{% static 'img\fondosocial.jpg' %}" class="watermark-image" alt="Watermark" oncontextmenu="return false;">
+                <div>
                 {% block content %}
+
                 {% endblock  %}
+                </div>
             </div>
+            <!--start footer-->
             <div id="conttt" class="container-fluid pt-4 px-4">
                 <div id="fote" class="rounded-top p-4">
                     <div class="row">
@@ -306,8 +362,9 @@
             <!-- Footer End -->
         </div>
         <!-- Content End -->
-
-
+        
+        <!--body-->
+        
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-danger btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
         <!-- Modal para enviar mensajes -->

@@ -6,10 +6,12 @@
 <article class="container "> 
     <h1 class="align-items-center justify-content-center text-center titulosgeneral">AREA REVISION DE FORMULARIOS PERFIL DE PROYECTO</h1>
     <br>
+
     {% for proyecto, formulario in proyectos.items %}
     <div class="container">
         <div class="card mb-4 mx-auto contrevision" style="max-width: 840px;">
             <div class="row g-0 ">
+
                 <div class="col-md-4 m-2">
                     {% if proyecto.user.imagen %}
                         <img src="{{ proyecto.user.imagen.url }}" class="p-2 mt-4 no-gutters img-fluid rounded-left and rounded-right to rounded-start and rounded-end" style="height: 300px;" alt="...">
@@ -17,6 +19,7 @@
                         <img src="{% static 'img/SINFOTO.webp' %}" class="p-2 mt-4 no-gutters img-fluid rounded-left and rounded-right to rounded-start and rounded-end" style="height: 300px;" alt="...">
                     {% endif %}
                 </div>
+
                 <div class="col-md-7">
                     <div class="card-body"><br>
                         <h5 class="card-title">TITULO: {{ proyecto.pertitulo }}</h5>
